@@ -1,6 +1,6 @@
 # Laravel Breeze - Vue 3 Edition 🏝️
 
-This repository is an implementing of the Laravel Breeze application / authentication starter kit frontend in **Vue.js v3** (*vite* powered + *pinia* + *vue-router*). All of the authentication boilerplate is already written for you - thanks to Laravel Sanctum, it allows you to quickly begin pairing an amazing Vue 3 frontend app with a powerful Laravel backend.
+This repository is an implementation of the Laravel Breeze application / authentication starter kit frontend in **Vue.js v3** (*vite* powered + *pinia* + *vue-router*). All of the authentication boilerplate is already written for you - thanks to Laravel Sanctum, it allows you to quickly begin pairing an amazing Vue 3 frontend app with a powerful Laravel backend.
 
 This repo has:
 - Persistent state logic using localStorage API automatically (this is done within `pinia` stores). 
@@ -8,6 +8,8 @@ This repo has:
 	- One for `axios`: to deal with 401 permission denied case.
 	- One for `vue-router`: to manage innacessibile routes if user is not logged in and viceversa.
 - Regarding CSS concerns this is less opinionated possible solution I found (only the minimum vanilla CSS but no third part libraries), so you can start from here and apply your favorite css framework/library if you like.
+
+![vue3-laravel-api-img](https://user-images.githubusercontent.com/22715417/161379302-780a3224-e121-4644-a017-8faf3b45d950.png)
 
 PS: It is still working progress but following the MVP philosophy it works fine as a good starting kit (I still need to test the `/forgot-password` feature but the rest it's fine).
 
