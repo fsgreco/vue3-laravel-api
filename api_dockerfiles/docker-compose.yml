@@ -1,0 +1,31 @@
+version: "2.4"
+
+services:
+
+  laravel9_database:
+    image: mysql:8
+    volumes:
+      - database_api:/var/lib/mysql
+    restart: unless-stopped
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+
+  laravel:
+    build: .
+    image: laravel9_api:from_scratch
+    volumes:
+      - ./.env:/var/www/laravel-app/.env
+    depends_on:
+      laravel9_database:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+
+volumes:
+  database_api:
