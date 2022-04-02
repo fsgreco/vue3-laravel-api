@@ -37,7 +37,7 @@ You can tell that it's done by visiting `localhost:8000`, you should see the ver
 
 Clone this repository and copy the .env.example:
 ```bash
-cp .env.example .env`
+cp .env.example .env
 ```
 Install the dependencies: 
 ```bash
