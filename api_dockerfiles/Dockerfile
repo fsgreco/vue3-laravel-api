@@ -1,13 +1,15 @@
-FROM php:8.0-fpm
+FROM php:8.1-fpm
 
 RUN apt-get update -y \
 	&& apt-get install -y libmcrypt-dev openssl openssh-client git zip unzip \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Fixed version of composer for php 8.1
+COPY --from=composer:2.4.3 /usr/bin/composer /usr/bin/composer
+# RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN pecl install mcrypt-1.0.4 
+RUN pecl install mcrypt-1.0.5 
 RUN docker-php-ext-enable mcrypt
 RUN docker-php-ext-install mysqli pdo_mysql
 
@@ -23,7 +25,8 @@ RUN chown -R www:www $working_dir
 WORKDIR $working_dir
 USER www
 
-RUN composer config disable-tls true && \
+RUN rm -rf vendor composer.lock && \
+	composer config disable-tls true && \
 	composer install --no-dev --no-scripts --ignore-platform-reqs && \
 	composer dump-autoload && \
 	composer clear-cache && \
