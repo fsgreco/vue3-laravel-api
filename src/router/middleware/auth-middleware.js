@@ -10,9 +10,13 @@ export default (to, from, next) => {
 	 * IF THE USER IS NOT LOGGED IN
 	 */
 	if (!auth.isLoggedIn) {
-		if (isGoingExceptionalRoutes)
+		if (isGoingExceptionalRoutes) {
 			next() // The user is not logged in but it's going to exceptional routes ? fine
-		else next({ name: 'login' }) // other routes than exceptional paths => /login
+			return
+		} else {
+			next({ name: 'login' })
+			return
+		} // other routes than exceptional paths => /login
 	}
 
 	/**
