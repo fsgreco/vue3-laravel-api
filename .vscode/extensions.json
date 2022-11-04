@@ -1,7 +1,7 @@
 {
 	"recommendations": [
-		"johnsoncodehk.volar",
-		"johnsoncodehk.vscode-typescript-vue-plugin",
+		"Vue.volar",
+		"Vue.vscode-typescript-vue-plugin",
 		"sdras.vue-vscode-snippets"
 	]
 }
