@@ -15,9 +15,6 @@ export const useAuthStore = defineStore({
 		},
 
 	actions: {
-		async csrf() {
-			await web.get('/sanctum/csrf-cookie')
-		},
 		updateState(payload) {
 			let newUserState = { ...this.$state, ...payload }
 			localStorage.removeItem('AUTH_STATE')
@@ -27,7 +24,6 @@ export const useAuthStore = defineStore({
 		async login({ email, password }) {
 			const user = useUserStore()
 			try {
-				await this.csrf()
 				await web.post('/login', { email, password })
 				this.updateState({ email, isLoggedIn: true })
 				await user.storeInfo()
@@ -39,7 +35,6 @@ export const useAuthStore = defineStore({
 		async register(props) {
 			const user = useUserStore()
 			try {
-				await this.csrf()
 				await web.post('/register', props)
 				this.updateState({ email: props.email, isLoggedIn: true })
 				await user.storeInfo()
@@ -50,7 +45,6 @@ export const useAuthStore = defineStore({
 		},
 		async forgotPassword({ email }) {
 			try {
-				await this.csrf()
 				await web.post('/forgot-password', { email })
 			} catch (error) {
 				console.log('ERROR WITH FORGOT-PASSWORD ENDPOINT: ', error.message)
@@ -61,13 +55,11 @@ export const useAuthStore = defineStore({
 		async logout() {
 			const user = useUserStore()
 			const router = useRouter()
-
 			localStorage.clear() // always clean localStorage before reset the state
 			this.$reset()
 			user.$reset()
 
 			try {
-				await this.csrf()
 				await web.post('/logout')
 				await router.push({ name: 'login' })
 			} catch (error) {
