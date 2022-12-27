@@ -1,14 +1,6 @@
 import axios from 'axios'
 import middleware401 from './middleware401'
-
-
-/**
- * Call setCSRFToken laravel sanctum
- * @returns 
- */
-const setCSRFToken = () => {
-	return useApi('web').get('/sanctum/csrf-cookie')
-}
+import middlewareCSRF from './middlewareCSRF'
 
 /**
  * Initialize Axios instance to call the API
@@ -32,37 +24,7 @@ export const useApi = (endpoint = 'api') => {
 		withCredentials: true,
 	})
 
-	axiosInstance.interceptors.request.use(
-		function (config) {
-			// If http method is `post | put | delete` and XSRF-TOKEN cookie is
-			// not present, call '/sanctum/csrf-cookie' to set CSRF token, then
-			// proceed with the initial response
-
-			let cookie = {}
-			document.cookie.split(';').forEach(function (el) {
-				let [key, value] = el.split('=')
-				cookie[key.trim()] = value
-			})
-
-			if (
-				(config.method == 'post' ||
-					config.method == 'put' ||
-					config.method == 'delete') &&
-				/* other methods you want to add here */
-				!cookie['XSRF-TOKEN']
-			) {
-				return setCSRFToken().then(() => config)
-			}
-
-			// Do something before request is sent
-			return config
-		},
-		function (error) {
-			// Do something with request error
-			return Promise.reject(error)
-		}
-	)
-
+	axiosInstance.interceptors.request.use( middlewareCSRF, err => Promise.reject(err)) 
 
 	axiosInstance.interceptors.response.use(resp => resp, middleware401)
 
