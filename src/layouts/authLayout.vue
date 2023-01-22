@@ -46,6 +46,7 @@
 		color: whitesmoke;
 		font-weight: bold;
 		text-transform: uppercase;
+		cursor: pointer;
 	}
 }
 </style>
