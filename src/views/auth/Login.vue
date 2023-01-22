@@ -38,7 +38,11 @@ const credentials = reactive({
 })
 
 const loginFn = async () => {
-	await auth.login(credentials)
+	try {
+		await auth.login(credentials)
+	} catch (error) { 
+		console.log(error.message) 
+	}
 	await router.push('/')
 }
 </script>
